@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+// const prisma = new PrismaClient({ log:["query"] })
+const prisma = new PrismaClient({ log:["query"] })
 
 async function main() {
     await prisma.user.deleteMany();
@@ -12,7 +13,11 @@ async function main() {
                 create: {
                     emailUpdates: true
                 }
-            }
+            },
+        },
+        select: {
+            name: true,
+            userPreference: { select: {id: true}}
         }
     })
     console.log(user);
